@@ -16,10 +16,16 @@ export default class Layout extends React.Component {
     changeImage (direction) {
         switch (direction) {
             case '<':
+                if(this.state.currentImageNdx <= 0) {
+                    return;
+                }
                 this.setState({currentImageNdx : this.state.currentImageNdx -= 1})
                 break;
         
             case '>':
+                if(this.state.currentImageNdx >= this.props.db.photos.length) {
+                    return;
+                }
                 this.setState({currentImageNdx : this.state.currentImageNdx += 1})
                 break;
         

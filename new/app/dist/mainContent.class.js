@@ -12,7 +12,7 @@ export default class Maincontent extends React.Component {
             <section id="main-content">
                 <img src={currentImage.url} alt="#" id='mainImg' />
                 <h3 id="title">{currentImage.title}</h3>
-                <h4 id="dateLoc">Taken on {currentImage.location} in {currentImage.date}</h4>
+                <h4 id="dateLoc">Taken on {currentImage.location} in {new Date(currentImage.date).toLocaleString()}</h4>
 
                 <fieldset>
                     <legend> Filter: </legend>
