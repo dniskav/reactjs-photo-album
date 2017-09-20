@@ -1,4 +1,5 @@
 import React from 'react';
+import Filter from './filter.class.js';
 
 export default class Maincontent extends React.Component {
     constructor() {
@@ -14,13 +15,8 @@ export default class Maincontent extends React.Component {
                 <h3 id="title">{currentImage.title}</h3>
                 <h4 id="dateLoc">Taken on {currentImage.location} in {new Date(currentImage.date).toLocaleString()}</h4>
 
-                <fieldset>
-                    <legend> Filter: </legend>
-                    Location: <input type="text" />
-                    Title: <input type="text" />
-                    <a href="#">date</a>
+                <Filter filter={this.props.filter}></Filter>
 
-                </fieldset>
                 <hr/>
                 
             </section>

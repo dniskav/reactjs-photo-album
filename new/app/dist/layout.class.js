@@ -7,12 +7,25 @@ export default class Layout extends React.Component {
     constructor(){
         super();
         this.state = {
-            currentImageNdx : 0
+            currentImageNdx : 0,
+            filterByLocation : null,
+            filterbyTitle : null,
+            filteredImages : [],
+            images : []
         };
     }
+
     getData(){
         return this.grettings;
     }
+
+    filter(params){
+        let query = {};
+        let key = 'filterBy' + params.kind;
+        query[key] = params.value;
+        this.setState(query);
+    }
+      
     changeImage (direction) {
         switch (direction) {
             case '<':
@@ -23,7 +36,7 @@ export default class Layout extends React.Component {
                 break;
         
             case '>':
-                if(this.state.currentImageNdx >= this.props.db.photos.length) {
+                if(this.state.currentImageNdx >= this.state.filteredImages.length -1) {
                     return;
                 }
                 this.setState({currentImageNdx : this.state.currentImageNdx += 1})
@@ -37,15 +50,29 @@ export default class Layout extends React.Component {
         this.setState({currentImageNdx : ndx});
     }
     render() {
+        let that = this;
         this.albumName = this.props.db.album.name;
-        this.currentImage = this.props.db.photos[this.state.currentImageNdx];
-        this.images = this.props.db.photos;
+
+        this.state.filteredImages = this.props.db.photos.filter(function(e){
+            let byLocation = 1;
+            let byTitle = 1;
+            if(that.state.filterByLocation != null) {
+                byLocation = e.location.indexOf(that.state.filterByLocation) > -1; 
+            }            
+            if(that.state.filterByTitle != null) {
+                byTitle = e.title.indexOf(that.state.filterByTitle) > -1 ;
+            }
+
+            return (byLocation) && (byTitle); 
+        });
+
+        this.currentImage = this.state.filteredImages[this.state.currentImageNdx];
+        
         return (
             <div>
-                <span>current: {this.state.currentImageNdx}</span>
                 <ControlsBar albumName={this.albumName} changeImage={this.changeImage.bind(this)}/>
-                <Maincontent currentImage={this.currentImage} />
-                <Thumbs images={this.images} jumpToImage={this.jumpToImage.bind(this)}/>
+                <Maincontent currentImage={this.currentImage} filter={this.filter.bind(this)}/>
+                <Thumbs images={this.state.filteredImages} jumpToImage={this.jumpToImage.bind(this)}/>
             </div>
         );
     }

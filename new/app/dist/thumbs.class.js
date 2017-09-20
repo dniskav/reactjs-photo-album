@@ -11,7 +11,8 @@ export default class Thumbs extends React.Component {
         let that = this;
         this.props.images.forEach(function(element, i) {
             thumbs.push(<Thumb image={element} key={i} ndx ={i} click={that.props.jumpToImage} />);
-        })
+        });
+        
         return (
             <section id="thumbs">
                 <ul class="thumbnails">
