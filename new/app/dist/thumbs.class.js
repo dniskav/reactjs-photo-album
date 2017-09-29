@@ -1,5 +1,4 @@
 import React from 'react';
-import Thumb from './thumb.class.js';
 
 export default class Thumbs extends React.Component {
     constructor() {
@@ -9,14 +8,15 @@ export default class Thumbs extends React.Component {
     render() {
         let thumbs = [];
         let that = this;
-        this.props.images.forEach(function(element, i) {
-            thumbs.push(<Thumb image={element} key={i} ndx ={i} click={that.props.jumpToImage} />);
-        });
         
         return (
             <section id="thumbs">
                 <ul class="thumbnails">
-                    {thumbs}
+                    {this.props.images.map((image, ndx) => 
+                        <li key={ndx} class="thumb" onClick={() => that.props.jumpToImage(ndx)}>
+                            <img src={image.thumb_url}/> 
+                        </li>
+                    )}
                 </ul>
             </section>
         )
